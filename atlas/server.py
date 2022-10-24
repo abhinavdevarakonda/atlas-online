@@ -2,7 +2,7 @@ import threading
 import socket
 import pickle
 
-host = "127.0.0.1"
+host = "10.0.0.17" 
 port = 55555
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -35,7 +35,7 @@ def handle(client):
         except:
             index = clients.index(client)
             name = names[index]
-            names.remove(nickname)
+            names.remove(name)
             clients.remove(index)
             client.close()
             broadcast(f"{name} has left the chat".encode('ascii'))

@@ -2,7 +2,7 @@ import socket
 import threading
 import pickle
 
-host = "127.0.0.1"
+host = "10.0.0.17" 
 port = 55555
 client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 client.connect((host,port))
