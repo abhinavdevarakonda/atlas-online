@@ -2,7 +2,9 @@ import threading
 import socket
 import pickle
 
-host = "10.0.0.17" 
+#10.0.0.17 = ipv4 on pc
+#10.0.0.26 - ipv4 on laptop
+host = "10.0.0.26" 
 port = 55555
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

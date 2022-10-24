@@ -2,7 +2,9 @@ import socket
 import threading
 import pickle
 
-host = "10.0.0.17" 
+#10.0.0.17 - ipv4 on pc
+#10.0.0.26 - ipv4 on laptop
+host = "10.0.0.26" 
 port = 55555
 client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 client.connect((host,port))
@@ -17,16 +19,30 @@ with open("country_list.txt","r") as list:
     for i in range(len(countries)):
         countries[i] = (countries[i].strip()).lower()
 
+def extract(word):
+    for i in word:
+        if i == ' ':
+            index = word.index(i)
 
-def wordCheck(player_country):
+    extracted_word = word[index+1:]
+    print(f"start your word with: {extracted_word[-1]}")
+    return extracted_word
+
+def wordCheck(player_country,previous_word):
     player_country = player_country.lower()
     if player_country in countries:
-        return True
+        if previous_word == "":
+            return True
+        else:
+            print(previous_word)
+            if player_country[0] == previous_word[-1]:
+                return True
+            else:
+                return False
     else:
-        print(player_country)
         return False
 
-
+previous_word = ""
 def receive():
     while True:
         try:
@@ -36,18 +52,22 @@ def receive():
             elif server_msg == MSG_REQ:
 
                 player_country = input(MSG_REQ)
-                if wordCheck(player_country):
+                if wordCheck(player_country,previous_word):
                     message = f"[{user_name}]: {player_country}"
                     client.send(message.encode('ascii'))
                 else:
-                    while wordCheck(player_country)==False:
+                    while wordCheck(player_country,previous_word)==False:
                         print("invalid. country not in country list.")
                         player_country = input(MSG_REQ)
 
                     message = f"[{user_name}]: {player_country}"
                     client.send(message.encode('ascii'))
             else:
-                print(server_msg)
+                if server_msg == "Connected to the server":
+                    previous_word = ""
+                else:
+                    previous_word = extract(server_msg)
+                    print(server_msg)
 
         except:
             print("error")
