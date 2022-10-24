@@ -26,6 +26,7 @@ def wordCheck(player_country):
         print(player_country)
         return False
 
+
 def receive():
     while True:
         try:
