@@ -25,7 +25,7 @@ def extract(word):
             index = word.index(i)
 
     extracted_word = word[index+1:]
-    print(f"start your word with: {extracted_word[-1]}")
+    # print(f"start your word with: {extracted_word[-1]}")
     return extracted_word
 
 def wordCheck(player_country,previous_word):
