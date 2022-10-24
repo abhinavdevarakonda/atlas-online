@@ -34,14 +34,14 @@ def wordCheck(player_country,previous_word):
         if previous_word == "":
             return True
         else:
-            print(previous_word)
-            if player_country[0] == previous_word[-1]:
+            if player_country[0] == previous_word[-1] and player_country not in countries_used:
                 return True
             else:
                 return False
     else:
         return False
 
+countries_used = []
 previous_word = ""
 def receive():
     while True:
@@ -57,16 +57,17 @@ def receive():
                     client.send(message.encode('ascii'))
                 else:
                     while wordCheck(player_country,previous_word)==False:
-                        print("invalid. country not in country list.")
+                        print("invalid.")
                         player_country = input(MSG_REQ)
 
                     message = f"[{user_name}]: {player_country}"
                     client.send(message.encode('ascii'))
             else:
-                if server_msg == "Connected to the server":
+                if server_msg == "Connected to the server" :
                     previous_word = ""
                 else:
                     previous_word = extract(server_msg)
+                    countries_used.append(previous_word)
                     print(server_msg)
 
         except:
